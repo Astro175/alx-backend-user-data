@@ -14,10 +14,7 @@ def filter_datum(fields: List[str], redaction: str,
       A function that replaces personal info with
       redaction
     """
-
     for field in fields:
-        pattern = f'{field}=.*?{separator}'
-        repl = f'{field}={redaction}{separator}'
-        input_str = message
-        message = re.sub(pattern, repl, input_str)
+        message = re.sub(f'{field}=.*?{separator}',
+                         f'{field}={redaction}{separator}', message)
     return message
