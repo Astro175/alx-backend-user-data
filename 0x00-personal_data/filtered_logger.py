@@ -7,12 +7,13 @@ from typing import List
    message obfuscated
 """
 
+
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
     """
       A function that replaces personal info with
       redaction
-    """ 
+    """
 
     for field in fields:
         pattern = f'{field}=.*?{separator}'
