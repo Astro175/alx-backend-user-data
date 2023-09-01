@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
 
-import re
-from typing import List
-import mysql.connector
-from os import environ
 """
    A function called filter_datum that returns the log
    message obfuscated
 """
 
+import re
+from typing import List
+import mysql.connector
+from os import environ
 import logging
 
 PII_FIELDS = ("ssn", "password", "ip", "name", "email")
+
+
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
     """
@@ -22,6 +24,7 @@ def filter_datum(fields: List[str], redaction: str,
         message = re.sub(f'{field}=.*?{separator}',
                          f'{field}={redaction}{separator}', message)
     return message
+
 
 def get_logger() -> logging.Logger:
     """
@@ -37,7 +40,8 @@ def get_logger() -> logging.Logger:
 
     return logger
 
-def get_db() ->  mysql.connector.connection.MySQLConnection:
+
+def get_db() -> mysql.connector.connection.MySQLConnection:
     """
       A function that uses mysql connector driver,
       to connect to a database
@@ -48,8 +52,7 @@ def get_db() ->  mysql.connector.connection.MySQLConnection:
     db_name = environ.get("PERSONAL_DATA_DB_NAME")
 
     connector = mysql.connector.connect(user=usrname, password=passwrd,
-                              host=hostname,
-                              database=db_name)
+                                        host=hostname, database=db_name)
     return connector
 
 
