@@ -11,7 +11,7 @@ import mysql.connector
 from os import environ
 import logging
 
-PII_FIELDS = ("ssn", "password", "ip", "name", "email")
+PII_FIELDS = ("ssn", "password", "phone", "name", "email")
 
 
 def filter_datum(fields: List[str], redaction: str,
@@ -51,9 +51,9 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     hostname = environ.get("PERSONAL_DATA_DB_PASSWORD")
     db_name = environ.get("PERSONAL_DATA_DB_NAME")
 
-    connector = mysql.connector.connect(user=usrname, password=passwrd,
-                                        host=hostname, database=db_name)
-    return connector
+    con = mysql.connector.connection.MySQLConnection(user=usrname, password=passwrd,
+                                                     host=hostname, database=db_name)
+    return con
 
 
 class RedactingFormatter(logging.Formatter):
