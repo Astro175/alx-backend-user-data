@@ -2,6 +2,8 @@
 
 import re
 from typing import List
+import mysql.connector
+from os import environ
 """
    A function called filter_datum that returns the log
    message obfuscated
@@ -35,6 +37,21 @@ def get_logger() -> logging.Logger:
 
     return logger
 
+def get_db() ->  mysql.connector.connection.MySQLConnection:
+    """
+      A function that uses mysql connector driver,
+      to connect to a database
+    """
+    usrname = environ.get("PERSONAL_DATA_DB_USERNAME")
+    passwrd = environ.get("PERSONAL_DATA_DB_PASSWORD")
+    hostname = environ.get("PERSONAL_DATA_DB_PASSWORD")
+    db_name = environ.get("PERSONAL_DATA_DB_NAME")
+
+    connector = mysql.connector.connect(user=usrname, password=passwrd,
+                              host=hostname,
+                              database=db_name)
+    return connector
+
 
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
@@ -44,7 +61,7 @@ class RedactingFormatter(logging.Formatter):
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR = ";"
 
-    def __init__(self, fields=None):
+    def __init__(self, fields: List[str]):
         super(RedactingFormatter, self).__init__(self.FORMAT)
         self.field = fields
 
