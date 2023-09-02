@@ -46,13 +46,15 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
       A function that uses mysql connector driver,
       to connect to a database
     """
-    usrname = environ.get("PERSONAL_DATA_DB_USERNAME")
-    passwrd = environ.get("PERSONAL_DATA_DB_PASSWORD")
-    hostname = environ.get("PERSONAL_DATA_DB_PASSWORD")
+    usrname = environ.get("PERSONAL_DATA_DB_USERNAME", "root")
+    passwrd = environ.get("PERSONAL_DATA_DB_PASSWORD", "")
+    hostname = environ.get("PERSONAL_DATA_DB_PASSWORD", "localhost")
     db_name = environ.get("PERSONAL_DATA_DB_NAME")
 
-    con = mysql.connector.connection.MySQLConnection(user=usrname, password=passwrd,
-                                                     host=hostname, database=db_name)
+    con = mysql.connector.connection.MySQLConnection(user=usrname,
+                                                     password=passwrd,
+                                                     host=hostname,
+                                                     database=db_name)
     return con
 
 
