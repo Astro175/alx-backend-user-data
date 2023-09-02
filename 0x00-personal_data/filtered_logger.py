@@ -48,7 +48,7 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     """
     usrname = environ.get("PERSONAL_DATA_DB_USERNAME", "root")
     passwrd = environ.get("PERSONAL_DATA_DB_PASSWORD", "")
-    hostname = environ.get("PERSONAL_DATA_DB_PASSWORD", "localhost")
+    hostname = environ.get("PERSONAL_DATA_DB_HOST", "localhost")
     db_name = environ.get("PERSONAL_DATA_DB_NAME")
 
     con = mysql.connector.connection.MySQLConnection(user=usrname,
@@ -59,9 +59,10 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
 
 
 class RedactingFormatter(logging.Formatter):
-    """ Redacting Formatter class
-        """
-
+    """
+      Redacting Formatter class
+    """
+    
     REDACTION = "***"
     FORMAT = "[HOLBERTON] %(name)s %(levelname)s %(asctime)-15s: %(message)s"
     SEPARATOR = ";"
