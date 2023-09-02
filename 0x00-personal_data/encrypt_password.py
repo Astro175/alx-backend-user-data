@@ -17,6 +17,19 @@ def hash_password(password: str) -> bytes:
     pw_bytes = password.encode("utf-8")
     salt = bcrypt.gensalt()
 
-    hash = bcrypt.hashpw(pw_bytes, salt)
+    hashed_password = bcrypt.hashpw(pw_bytes, salt)
 
-    return hash
+    return hashed_password
+
+
+def is_valid(hashed_password: bytes, password: str) -> bool:
+    """
+      Checks if a hashed password was created from the string
+      password, if true, it authenticates the user
+    """
+
+    pw_bytes = password.encode("utf-8")
+
+    check = bcrypt.checkpw(pw_bytes, hashed_password)
+
+    return check
