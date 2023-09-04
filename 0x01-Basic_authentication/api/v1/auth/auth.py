@@ -40,7 +40,15 @@ class Auth():
         """"
            Method for authorization_header
         """
-        return None
+        if request is None:
+            return None
+        key = "Authorization"
+
+        key_value = request.headers.get(key)
+
+        if not key_value:
+            return None
+        return key_value
 
     def current_user(self, request=None) -> TypeVar('User'):
         """

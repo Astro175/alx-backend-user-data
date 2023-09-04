@@ -7,11 +7,19 @@ from api.v1.views import app_views
 from flask import Flask, jsonify, abort, request
 from flask_cors import (CORS, cross_origin)
 import os
+from api.v1.auth.auth import Auth
 
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
 CORS(app, resources={r"/api/v1/*": {"origins": "*"}})
+auth = None
+key = getenv("AUTH_TYPE")
+
+auth = key
+
+if auth:
+    auth = Auth()
 
 
 @app.errorhandler(404)
@@ -20,6 +28,7 @@ def not_found(error) -> str:
     """
     return jsonify({"error": "Not found"}), 404
 
+
 @app.errorhandler(401)
 def un_authorized(error) -> str:
     """
@@ -27,12 +36,38 @@ def un_authorized(error) -> str:
     """
     return jsonify({"error": "Unauthorized"}), 401
 
+
 @app.errorhandler(403)
 def forbidden(error) -> str:
     """
       Forbidden error handler
     """
     return jsonify({"error": "Forbidden"}), 403
+
+
+@app.before_request
+def check_auth() -> str:
+    """
+       Checks the path for authentication
+       before_request
+    """
+    get_header = auth.authorization_header(request)
+    get_user = auth.current_user(request)
+
+    if auth is None:
+        pass
+    no_auth_list = ['/api/v1/status/', '/api/v1/unauthorized/',
+                    '/api/v1/forbidden/']
+    check = auth.require_auth(request.path, no_auth_list)
+
+    if not check:
+        pass
+    else:
+        if not get_header:
+            abort(401)
+        if not get_user:
+            abort(403)
+
 
 if __name__ == "__main__":
     host = getenv("API_HOST", "0.0.0.0")
