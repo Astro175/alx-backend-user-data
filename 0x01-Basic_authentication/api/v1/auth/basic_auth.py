@@ -7,6 +7,8 @@
 
 from api.v1.auth.auth import Auth
 import base64
+from models.user import User
+from typing import TypeVar
 
 
 class BasicAuth(Auth):
@@ -65,3 +67,21 @@ class BasicAuth(Auth):
         email = user_cred[0]
         password = user_cred[1]
         return email, password
+
+    def user_object_from_credentials(
+            self, user_email: str, user_pwd: str) -> TypeVar('User'):
+        """
+           Method that searches the database if a user with this
+           record actually exists!
+        """
+        if user_email is None or type(user_email) is not str:
+            return None
+        if user_pwd is None or type(user_pwd) is not str:
+            return None
+
+        users = User.search({"email": user_email})
+        if users:
+            for user in users:
+                if user.is_valid_password(user_pwd):
+                    return user
+        return None
