@@ -31,7 +31,7 @@ def un_authorized() -> str:
     """
       Routing for unauthorized access
     """
-    abort(401)
+    abort(401, description='Unauthorized')
 
 
 @app_views.route('/forbidden', methods=['GET'], strict_slashes=False)
@@ -39,4 +39,4 @@ def forbidden() -> str:
     """
       Routing for forbidden access
     """
-    abort(403)
+    abort(403, description='Forbidden')
