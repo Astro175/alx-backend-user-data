@@ -65,9 +65,9 @@ class BasicAuth(Auth):
             return None, None
         user_cred = decoded_base64_authorization_header.split(":")
         email = user_cred[0]
-        if len(user_cred == 2):
+        if len(user_cred) <= 2:
             password = user_cred[1]
-        elif len(user_cred > 2):
+        elif len(user_cred) > 2:
             password = user_cred[1] + ':' + user_cred[2]
 
         return email, password
