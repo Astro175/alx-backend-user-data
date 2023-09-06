@@ -31,10 +31,10 @@ class Auth():
         else:
             slashed_path = path + '/'
 
-        if slashed_path in excluded_paths:
-            return False
-        else:
-            return True
+        for excluded_path in excluded_paths:
+            if slashed_path.endswith(excluded_path):
+                return False
+        return True
 
     def authorization_header(self, request=None) -> str:
         """"
