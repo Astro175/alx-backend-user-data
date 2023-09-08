@@ -25,7 +25,6 @@ elif auth == 'basic_auth':
     auth = BasicAuth()
 elif auth == 'session_auth':
     auth = SessionAuth()
-print(auth)
 
 
 @app.errorhandler(404)
