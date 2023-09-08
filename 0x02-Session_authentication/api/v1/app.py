@@ -19,13 +19,13 @@ key = getenv("AUTH_TYPE")
 
 auth = key
 
-if auth == 'basic_auth':
+if auth == 'auth':
+    auth = Auth()
+elif auth == 'basic_auth':
     auth = BasicAuth()
 elif auth == 'session_auth':
     auth = SessionAuth()
-else:
-    auth = Auth()
-
+print(auth)
 
 @app.errorhandler(404)
 def not_found(error) -> str:
@@ -63,7 +63,7 @@ def check_auth() -> str:
     if auth is None:
         pass
     no_auth_list = ['/api/v1/status/', '/api/v1/unauthorized/',
-                    '/api/v1/forbidden/']
+                    '/api/v1/forbidden/', '/api/v1/auth_session/login/']
     check = auth.require_auth(request.path, no_auth_list)
 
     if not check:
@@ -73,6 +73,9 @@ def check_auth() -> str:
             abort(401)
         if not get_user:
             abort(403)
+    if auth.authorization_header(request) and
+    auth.session_cookie(request):
+        return None
 
 
 if __name__ == "__main__":
