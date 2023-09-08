@@ -27,6 +27,7 @@ elif auth == 'session_auth':
     auth = SessionAuth()
 print(auth)
 
+
 @app.errorhandler(404)
 def not_found(error) -> str:
     """ Not found handler
@@ -73,8 +74,9 @@ def check_auth() -> str:
             abort(401)
         if not get_user:
             abort(403)
-    if auth.authorization_header(request) and
-    auth.session_cookie(request):
+    if auth.authorization_header(request) and \
+            auth.session_cookie(request):
+        abort(401)
         return None
 
 
