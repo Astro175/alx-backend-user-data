@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-
 """
   Module that for routes for session_auth
 """
@@ -18,7 +17,7 @@ def session_auth():
     password = request.form.get('password')
     email = request.form.get('email')
 
-    if email is '' or email is None:
+    if email == '' or email is None:
         return jsonify({"error": "email missing"}), 400
     if password is '' or password is None:
         return jsonify({"error": "password missing"}), 400
