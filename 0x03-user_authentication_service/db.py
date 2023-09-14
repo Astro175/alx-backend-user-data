@@ -43,7 +43,7 @@ class DB:
         self._session.commit()
         return user1
 
-    def find_user_by(self, **search_by):
+    def find_user_by(self, **search_by) -> User:
         """
         Filters a new user according to search_by keyword"""
         if not search_by:
