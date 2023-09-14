@@ -52,3 +52,14 @@ class DB:
         if not result:
             raise NoResultFound
         return result
+
+    def update_user(self, user_id: int, **dict) -> None:
+        """Filters and updates a column with a new value"""
+        user = self.__session.query(User).filter(
+            User.id == user_id).first()
+        for key, value in dict.items():
+            if not hasattr(user, key):
+                raise ValueError
+            setattr(user, key, value)
+        self._session.commit()
+        return None
