@@ -22,7 +22,7 @@ def users():
 
     try:
         user = AUTH.register_user(email, password)
-        payload = {"email": "{}", "message": "user created".format(email)}
+        payload = {"email": user.email, "message": "user created"}
         return jsonify(payload)
     except ValueError:
         payload = {"message": "email already registered"}
@@ -40,7 +40,7 @@ def login():
     if not status:
         abort(401)
     id = AUTH.create_session(email)
-    payload = {"email": "<user email>", "message": "logged in"}
+    payload = {"email": email, "message": "logged in".format(email)}
     response = jsonify(payload)
     response.set_cookie('session_id', id)
     return response
