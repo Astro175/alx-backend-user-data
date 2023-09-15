@@ -55,3 +55,4 @@ def _generate_uuid() -> str:
     """The function should return a string representation
     of a new UUID. """
     id = str(uuid4())
+    return id
