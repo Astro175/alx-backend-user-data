@@ -60,5 +60,19 @@ def logout():
     return redirect('/')
 
 
+@app.route('/profile', methods=['GET'])
+def profile():
+    """The request is expected to contain a session_id cookie.
+    Use it to find the user. If the user exist, respond with a
+    200 HTTP status"""
+    session_id = request.cookies.get('session_id')
+    user = AUTH.get_user_from_session_id(session_id)
+    if user:
+        payload = {"email": "user.email"}
+        return jsonify(payload), 200
+    else:
+        abort(403)
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000", debug=True)
