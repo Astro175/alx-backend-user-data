@@ -68,7 +68,7 @@ def profile():
     session_id = request.cookies.get('session_id')
     user = AUTH.get_user_from_session_id(session_id)
     if user:
-        payload = {"email": "user.email"}
+        payload = {"email": user.email}
         return jsonify(payload), 200
     else:
         abort(403)
