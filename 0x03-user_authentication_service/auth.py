@@ -81,6 +81,19 @@ class Auth:
         user.reset_token = str(uuid4())
         return user.reset_token
 
+    def update_password(self, reset_token: str, password: str) -> None:
+        """takes reset_token string argument and a password string argument and
+        returns None. Use the reset_token to find the corresponding user.
+        If it does not exist, raise a ValueError exception."""
+        try:
+            user = self._db.find_user_by(reset_token=reset_token)
+        except NoResultFound:
+            raise ValueError
+        else:
+            user.hashed_password = _hash_password(password)
+            user.reset_token = None
+            return None
+
 
 def _hash_password(password: str) -> bytes:
     """ method that takes in a password string arguments and
